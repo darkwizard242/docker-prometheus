@@ -36,4 +36,4 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: ${{ matrix.TAG_NAME }}_image_artifacts
-        path: ${{ matrix.TAG_NAME }}/
+        path: .
