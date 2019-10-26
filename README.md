@@ -24,37 +24,37 @@ Simply, pull/run the docker image using whichever tag you prefer directly (examp
 ### 1\. Prometheus version 2.13.1:
 
 ```shell
-docker run -dp 80:9090 darkwizard242/prometheus:2.13.1
+docker run -dp 80:9090 --name=prometheus darkwizard242/prometheus:2.13.1
 ```
 
 ### 2\. Prometheus version 2.13.0:
 
 ```shell
-docker run -dp 80:9090 darkwizard242/prometheus:2.13.0
+docker run -dp 80:9090 --name=prometheus darkwizard242/prometheus:2.13.0
 ```
 
 ### 3\. Prometheus version 2.12.0:
 
 ```shell
-docker run -dp 80:9090 darkwizard242/prometheus:2.12.0
+docker run -dp 80:9090 --name=prometheus darkwizard242/prometheus:2.12.0
 ```
 
 ### 4\. Prometheus version 2.11.2:
 
 ```shell
-docker run -dp 80:9090 darkwizard242/prometheus:2.11.2
+docker run -dp 80:9090 --name=prometheus darkwizard242/prometheus:2.11.2
 ```
 
 ### 5\. Prometheus version 2.11.1:
 
 ```shell
-docker run -dp 80:9090 darkwizard242/prometheus:2.11.1
+docker run -dp 80:9090 --name=prometheus darkwizard242/prometheus:2.11.1
 ```
 
 ### 6\. Prometheus version 2.11.0:
 
 ```shell
-docker run -dp 80:9090 darkwizard242/prometheus:2.11.0
+docker run -dp 80:9090 --name=prometheus darkwizard242/prometheus:2.11.0
 ```
 
 ## Author:
