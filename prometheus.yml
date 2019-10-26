@@ -3,7 +3,7 @@ global:
   evaluation_interval: 5s
 
 #rule_files:
-#  - "alerts/memory.yml"
+#  - "example.yml"
 
 # alerting:
 #   alertmanagers:
