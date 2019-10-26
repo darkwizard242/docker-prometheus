@@ -1,0 +1,39 @@
+name: docker-automated-build
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 6
+      matrix:
+        TAG_NAME: [2.13.1, 2.13.0, 2.12.0, 2.11.2, 2.11.1, 2.11.0]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build docker image
+      env:
+        DOCKER_HUB_USER: ${{ secrets.HUB_USER }}
+        DOCKER_HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+      run: |
+        echo -e "\nLogging into Docker Hub...\n"
+        echo $DOCKER_HUB_TOKEN | docker login -u $DOCKER_HUB_USER --password-stdin
+        echo -e "\nBuilding image for:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }}\n"
+        docker build . -f Dockerfile --build-arg version=${{ matrix.TAG_NAME }} --tag darkwizard242/prometheus:${{ matrix.TAG_NAME }}
+        echo -e "\nPushing build image of:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }}\tto Dockerhub..\n"
+        docker push darkwizard242/prometheus:${{ matrix.TAG_NAME }}
+        echo -e "\nNew image for:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }} has now been pushed to Dockerhub  !!!"
+    - name: Archive and upload Dockerfile
+      uses: actions/upload-artifact@master
+      with:
+        name: ${{ matrix.TAG_NAME }}_image_artifacts
+        path: ${{ matrix.TAG_NAME }}/
