@@ -35,7 +35,7 @@ jobs:
         echo -e "\nPushing build image of:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }}\tto Dockerhub..\n"
         docker push darkwizard242/prometheus:${{ matrix.TAG_NAME }}
         echo -e "\nNew image for:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }} has now been pushed to Dockerhub  !!!"
-    - name: Run Trivy for Vulnerability Scanning of darkwizard242/prometheus:${{ matrix.TAG_NAME }}
+    - name: Run Trivy for Vulnerability Scanning of image
       run: |
         trivy darkwizard242/prometheus:${{ matrix.TAG_NAME }}
     - name: Archive and upload Dockerfile
