@@ -16,10 +16,13 @@ jobs:
     strategy:
       max-parallel: 6
       matrix:
-        TAG_NAME: [2.13.1, 2.13.0, 2.12.0, 2.11.2, 2.11.1, 2.11.0]
+        TAG_NAME: [2.14.0, 2.13.1, 2.13.0, 2.12.0, 2.11.2, 2.11.1]
 
     steps:
     - uses: actions/checkout@v1
+    - name: Install Trivy for Vulnerability Scanning of Docker images.
+      run: |
+        sudo curl -fsSL https://raw.githubusercontent.com/darkwizard242/devopsubuntu1804/v1.0/packer-build/mods/27-trivy.sh | bash -s -- install
     - name: Build docker image
       env:
         DOCKER_HUB_USER: ${{ secrets.HUB_USER }}
@@ -32,6 +35,9 @@ jobs:
         echo -e "\nPushing build image of:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }}\tto Dockerhub..\n"
         docker push darkwizard242/prometheus:${{ matrix.TAG_NAME }}
         echo -e "\nNew image for:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }} has now been pushed to Dockerhub  !!!"
+    - name: Run Trivy for Vulnerability Scanning of darkwizard242/prometheus:${{ matrix.TAG_NAME }}
+      run: |
+        trivy darkwizard242/prometheus:${{ matrix.TAG_NAME }}
     - name: Archive and upload Dockerfile
       uses: actions/upload-artifact@master
       with:
