@@ -20,6 +20,10 @@ RUN mkdir -p mkdir -p /etc/prometheus /var/lib/prometheus \
     && rm -rf /tmp/ \
     && chown -R nobody:nogroup /etc/prometheus /var/lib/prometheus
 
+# Cleanup
+RUN apk del wget tar \
+    && apk cache clean
+
 
 # Container Configurations
 USER nobody
