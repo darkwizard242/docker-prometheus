@@ -22,7 +22,7 @@ RUN mkdir -p mkdir -p /etc/prometheus /var/lib/prometheus \
 
 # Cleanup
 RUN apk del wget tar \
-    && apk cache -v clean
+    && rm -f /var/cache/apk/*
 
 
 # Container Configurations
