@@ -23,7 +23,7 @@ jobs:
     - name: Install Trivy for Vulnerability Scanning of Docker images.
       run: |
         curl -fsSL https://raw.githubusercontent.com/darkwizard242/devopsubuntu1804/v1.0/packer-build/mods/27-trivy.sh | sudo bash -s -- install
-    - name: Build docker image tag ${{ matrix.TAG_NAME } & push to dockerhub
+    - name: Build docker image tag ${{ matrix.TAG_NAME }} & push to dockerhub
       uses: docker/build-push-action@v1
       with:
         username: ${{ DOCKER_HUB_USER }}
