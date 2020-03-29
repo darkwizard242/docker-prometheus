@@ -23,18 +23,15 @@ jobs:
     - name: Install Trivy for Vulnerability Scanning of Docker images.
       run: |
         curl -fsSL https://raw.githubusercontent.com/darkwizard242/devopsubuntu1804/v1.0/packer-build/mods/27-trivy.sh | sudo bash -s -- install
-    - name: Build docker image
-      env:
-        DOCKER_HUB_USER: ${{ secrets.HUB_USER }}
-        DOCKER_HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
-      run: |
-        echo -e "\nLogging into Docker Hub...\n"
-        echo $DOCKER_HUB_TOKEN | docker login -u $DOCKER_HUB_USER --password-stdin
-        echo -e "\nBuilding image for:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }}\n"
-        docker build . -f Dockerfile --build-arg version=${{ matrix.TAG_NAME }} --tag darkwizard242/prometheus:${{ matrix.TAG_NAME }}
-        echo -e "\nPushing build image of:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }}\tto Dockerhub..\n"
-        docker push darkwizard242/prometheus:${{ matrix.TAG_NAME }}
-        echo -e "\nNew image for:\tdarkwizard242/prometheus:${{ matrix.TAG_NAME }} has now been pushed to Dockerhub  !!!"
+    - name: Build docker image tag ${{ matrix.TAG_NAME } & push to dockerhub
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ DOCKER_HUB_USER }}
+        password: ${{ DOCKER_HUB_TOKEN }}
+        dockerfile: Dockerfile
+        build_args: version=${{ matrix.TAG_NAME }}
+        repository: darkwizard242/prometheus
+        tags: ${{ matrix.TAG_NAME }}
     - name: Run Trivy for Vulnerability Scanning of image
       run: |
         trivy darkwizard242/prometheus:${{ matrix.TAG_NAME }}
