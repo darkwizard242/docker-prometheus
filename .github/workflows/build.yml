@@ -26,15 +26,12 @@ jobs:
     - name: Build docker image tag ${{ matrix.TAG_NAME }} & push to dockerhub
       uses: docker/build-push-action@v1
       with:
-        username: ${{ DOCKER_HUB_USER }}
-        password: ${{ DOCKER_HUB_TOKEN }}
+        username: ${{ secrets.HUB_USER }}
+        password: ${{ secrets.HUB_TOKEN }}
         dockerfile: Dockerfile
         build_args: version=${{ matrix.TAG_NAME }}
         repository: darkwizard242/prometheus
         tags: ${{ matrix.TAG_NAME }}
-      env:
-        DOCKER_HUB_USER: ${{ secrets.HUB_USER }}
-        DOCKER_HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
     - name: Run Trivy for Vulnerability Scanning of image
       run: |
         trivy darkwizard242/prometheus:${{ matrix.TAG_NAME }}
