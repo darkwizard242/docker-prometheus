@@ -7,7 +7,7 @@ RUN apk update \
     && apk add --no-cache wget tar
 
 # Set Prometheus Version
-ARG version=2.14.0
+ARG version=2.19.0
 
 # Download, install and setup Prometheus
 RUN mkdir -p mkdir -p /etc/prometheus /var/lib/prometheus \
